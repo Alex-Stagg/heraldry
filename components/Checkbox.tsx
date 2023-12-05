@@ -6,7 +6,7 @@ export default function Checkbox(props: JSX.HTMLAttributes<HTMLInputElement>) {
         <input type="checkbox"
             {...props}
             disabled={!IS_BROWSER || props.disabled}
-            class="px-2 py-1 border-gray-500 border-2 rounded bg-white hover:bg-gray-200 transition-colors"
+            class="w-6 h-6 border-gray-500 border-2 rounded bg-white hover:bg-gray-200 transition-colors"
         />
     )
 }

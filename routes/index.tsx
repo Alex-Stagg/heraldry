@@ -1,5 +1,3 @@
-import { useSignal } from "@preact/signals";
-import Heraldry, { HeraldryDef } from "../components/Heraldry.tsx";
 import SetHeraldry from "../islands/SetHeraldry.tsx";
 
 export default function Home() {
