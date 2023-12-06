@@ -30,6 +30,7 @@ export default function CommandSelector(props: ExtraCommandSelectorProps) {
                 <option value="saltire">Saltire</option>
                 <option value="chevron">Chevron</option>
                 <option value="pall">Pall</option>
+                <option value="border">Border</option>
                 <option value="chief">Chief</option>
                 <option value="base">Base</option>
                 <option value="tierce">Tierce</option>

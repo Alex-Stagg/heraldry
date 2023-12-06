@@ -3,7 +3,7 @@ import { StateUpdater, useState } from "preact/hooks";
 
 export type HeraldryMetal = "argent" | "or";
 export type HeraldryTincture = "gules" | "noir";
-export type HeraldryCommand = "fess" | "pale" | "bend" | "cross" | "saltire" | "chevron" | "pall";
+export type HeraldryCommand = "fess" | "pale" | "bend" | "cross" | "saltire" | "chevron" | "pall" | "border";
 export type HeraldryExtraCommand = "chief" | "base" | "tierce" | "canton" ;
 
 export interface HeraldryDivision {
@@ -91,6 +91,10 @@ const fills = {
         return <g clip-path="url(#shield)">
             <rect x={props.sinister ? -60 : 10} y="-80" height="70" width="50" class={`${fills[props.color]}`} />
         </g>
+    } else if (props.command === 'border') {
+        return <g>
+            <path d="M -30,-30 H 30 L 30,0 C 30,30 0,37.5 0,37.5 0,37.5 -30,30 -30,0 Z" class={`${fills[props.color]}`} fill-opacity="1" mask="url(#tiny-shield)" />
+        </g>
     } else {
         return <></>
     }
@@ -149,6 +153,10 @@ export default function Heraldry(props: HeraldryProps) {
                     <clipPath id="shield">
                         <path d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z" />
                     </clipPath>
+                    <mask id="tiny-shield">
+                    <path d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z" fill="#FFF" />
+                        <path d="M -20,-20 H 20 L 20,0 C 20,20 0,27.5 0,27.5 0,27.5 -20,20 -20,0 Z" fill="#000" />
+                    </mask>
                 </defs>
                 <path d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z" class={`${fills[props.heraldry.value.field]}`} style="stroke: #000000;stroke-width: 0.352777;stroke-linecap: round;stroke-linejoin: round;" />
                 { props.heraldry.value.division !== undefined && <Division {...props.heraldry.value.division!} /> }
