@@ -16,9 +16,9 @@ export default function SetHeraldry() {
     const divisionSinister = useSignal<boolean>(false);
     const divisionPerverse = useSignal<boolean>(false);
 
-    const ordinaryEnabled = useSignal<boolean>(true);
-    const ordinaryStyle = useSignal<HeraldryCommand | HeraldryExtraCommand>("border");
-    const ordinaryColor = useSignal<HeraldryMetal | HeraldryTincture>('gules');
+    const ordinaryEnabled = useSignal<boolean>(false);
+    const ordinaryStyle = useSignal<HeraldryCommand | HeraldryExtraCommand>("fess");
+    const ordinaryColor = useSignal<HeraldryMetal | HeraldryTincture>('or');
     const ordinarySinister = useSignal<boolean>(false);
     const ordinaryPerverse = useSignal<boolean>(false);
 
