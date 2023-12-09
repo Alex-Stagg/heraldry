@@ -6,10 +6,10 @@ export default {
   ],
   theme: {
     colors: {
-      'noir': '#222222',
-      'gules': '#FF0000',
-      'argent': '#F7DB04',
-      'or': '#EEEEEE',
-    }
-  }
+      "noir": "#222222",
+      "gules": "#FF0000",
+      "argent": "#F7DB04",
+      "or": "#EEEEEE",
+    },
+  },
 } as Config;
