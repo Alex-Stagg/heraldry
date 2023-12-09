@@ -1,9 +1,9 @@
-# Fresh project
+# Heraldry
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+A little site to help you make heraldries for the Grey Knights in Warhammer 40K.
+You can use it on the hosted instance available at: https://heraldry.deno.dev
 
-### Usage
+### Local development
 
 Make sure to install Deno: https://deno.land/manual/getting_started/installation
 
