@@ -1,3 +1,4 @@
+<!-- deno-fmt-ignore-file -->
 # Changelog
 
 ## [0.2.0](https://github.com/Alex-Stagg/heraldry/compare/v0.1.0...v0.2.0) (2023-12-10)
