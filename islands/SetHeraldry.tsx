@@ -17,11 +17,11 @@ import ExtraCommandSelector from "../components/ExtraCommandSelector.tsx";
 export default function SetHeraldry() {
   const field = useSignal<HeraldryMetal | HeraldryTincture>("or");
 
-  const divisionEnabled = useSignal<boolean>(false);
-  const divisionStyle = useSignal<HeraldryCommand>("fess");
-  const divisionColor = useSignal<HeraldryMetal | HeraldryTincture>("or");
+  const divisionEnabled = useSignal<boolean>(true);
+  const divisionStyle = useSignal<HeraldryCommand>("bend");
+  const divisionColor = useSignal<HeraldryMetal | HeraldryTincture>("gules");
   const divisionSecondary = useSignal<HeraldryMetal | HeraldryTincture>("or");
-  const divisionSinister = useSignal<boolean>(false);
+  const divisionSinister = useSignal<boolean>(true);
   const divisionPerverse = useSignal<boolean>(false);
 
   const ordinaryEnabled = useSignal<boolean>(false);
