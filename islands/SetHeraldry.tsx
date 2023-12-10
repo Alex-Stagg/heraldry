@@ -1,6 +1,6 @@
-import { Signal, useComputed, useSignal } from "@preact/signals";
-import Select from "../components/Select.tsx";
+import { useComputed, useSignal } from "@preact/signals";
 import Heraldry, {
+  HeraldryCharge,
   HeraldryCommand,
   HeraldryDef,
   HeraldryDivision,
@@ -13,6 +13,7 @@ import Checkbox from "../components/Checkbox.tsx";
 import ColorSelector from "../components/ColorSelector.tsx";
 import CommandSelector from "../components/CommandSelector.tsx";
 import ExtraCommandSelector from "../components/ExtraCommandSelector.tsx";
+import ChargeSetter from "../components/ChargeSetter.tsx";
 
 export default function SetHeraldry() {
   const field = useSignal<HeraldryMetal | HeraldryTincture>("or");
@@ -51,11 +52,25 @@ export default function SetHeraldry() {
     };
   });
 
+  const charges = useSignal<HeraldryCharge[]>([{
+    type: "square",
+    color: "gules",
+    arrangement: "fess",
+    sinister: false,
+    count: 1,
+    rotation: 0,
+    offset: {
+      major: 0,
+      minor: 0,
+    },
+  }]);
+
   const heraldry = useComputed<HeraldryDef>(() => {
     return {
       field: field.value,
       division: divisionEnabled.value ? division.value : undefined,
       ordinary: ordinaryEnabled.value ? ordinary.value : undefined,
+      charges: charges.value,
     };
   });
 
@@ -242,6 +257,7 @@ export default function SetHeraldry() {
         </div>
         <Heraldry class="w-1/2" heraldry={heraldry} id="heraldry" />
       </div>
+      <ChargeSetter charges={charges} />
     </div>
   );
 }
