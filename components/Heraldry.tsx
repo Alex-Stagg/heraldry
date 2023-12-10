@@ -29,10 +29,26 @@ export interface HeraldryOrdinary {
   perverse?: boolean;
 }
 
+export type ChargeType = "circle" | "square";
+
+export interface HeraldryCharge {
+  type: ChargeType;
+  color: HeraldryMetal | HeraldryTincture;
+  arrangement: HeraldryCommand | HeraldryExtraCommand;
+  sinister: boolean;
+  count: number;
+  rotation: number;
+  offset: {
+    major: number;
+    minor: number;
+  };
+}
+
 export interface HeraldryDef {
   field: HeraldryMetal | HeraldryTincture;
   division?: HeraldryDivision;
   ordinary?: HeraldryOrdinary;
+  charges?: HeraldryCharge[];
 }
 
 interface HeraldryProps {
@@ -47,6 +63,48 @@ const fills = {
   argent: "fill-argent",
   or: "fill-or",
 };
+
+function Charge(props: HeraldryCharge) {
+  let fx = (major: number, minor: number) => major;
+  let fy = (major: number, minor: number) => minor;
+
+  if (props.arrangement === "pall") {
+    fx = (major: number, minor: number) => minor;
+    fy = (major: number, minor: number) => major;
+  } else if (props.arrangement === "bend" && !props.sinister) {
+    fx = (major, minor) => major + minor;
+    fy = (major, minor) => major - minor;
+  } else if (props.arrangement === "bend" && props.sinister) {
+    fx = (major, minor) => major - minor;
+    fy = (major, minor) => -major - minor;
+  }
+
+  const x = fx(props.offset.major, props.offset.minor);
+  const y = fy(props.offset.major, props.offset.minor);
+
+  if (props.type === "circle") {
+    return (
+      <g clip-path="url(#shield)">
+        <circle cx={x} cy={y} r="5" class={`${fills[props.color]}`} />
+      </g>
+    );
+  } else if (props.type === "square") {
+    return (
+      <g clip-path="url(#shield">
+        <rect
+          x={x - 5}
+          y={y - 5}
+          width="10"
+          height="10"
+          class={`${fills[props.color]}`}
+          transform={`rotate(${props.rotation} ${x} ${y})`}
+        />
+      </g>
+    );
+  } else {
+    return <></>;
+  }
+}
 
 function Ordinary(props: HeraldryOrdinary) {
   if (props.command === "fess") {
@@ -360,6 +418,11 @@ function Division(props: HeraldryDivision) {
 }
 
 export default function Heraldry(props: HeraldryProps) {
+  const charges = [];
+  for (let i = 0; i < props.heraldry.value.charges!.length; i++) {
+    charges.push(<Charge {...props.heraldry.value.charges![i]} />);
+  }
+
   return (
     <div class={props.class}>
       <svg viewBox="-40 -40 80 80" id={props.id}>
@@ -389,6 +452,9 @@ export default function Heraldry(props: HeraldryProps) {
         {props.heraldry.value.ordinary !== undefined && (
           <Ordinary {...props.heraldry.value.ordinary!} />
         )}
+
+        {charges}
+
         <path
           d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
           style="fill: none;stroke: #000000;stroke-width: 0.352777;stroke-linecap: round;stroke-linejoin: round;"
