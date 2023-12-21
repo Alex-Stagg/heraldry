@@ -7,6 +7,7 @@ import Heraldry, {
   HeraldryExtraCommand,
   HeraldryMetal,
   HeraldryOrdinary,
+  HeraldryShape,
   HeraldryTincture,
 } from "../components/Heraldry.tsx";
 import Checkbox from "../components/Checkbox.tsx";
@@ -14,8 +15,10 @@ import ColorSelector from "../components/ColorSelector.tsx";
 import CommandSelector from "../components/CommandSelector.tsx";
 import ExtraCommandSelector from "../components/ExtraCommandSelector.tsx";
 import ChargeSetter from "../components/ChargeSetter.tsx";
+import ShapeSelector from "../components/ShapeSelector.tsx";
 
 export default function SetHeraldry() {
+  const shape = useSignal<HeraldryShape>("pointed");
   const field = useSignal<HeraldryMetal | HeraldryTincture>("or");
 
   const divisionEnabled = useSignal<boolean>(true);
@@ -67,6 +70,7 @@ export default function SetHeraldry() {
 
   const heraldry = useComputed<HeraldryDef>(() => {
     return {
+      shape: shape.value,
       field: field.value,
       division: divisionEnabled.value ? division.value : undefined,
       ordinary: ordinaryEnabled.value ? ordinary.value : undefined,
@@ -78,6 +82,17 @@ export default function SetHeraldry() {
     <div class="flex flex-col gap-2 w-full">
       <div class="flex flex-row justify-between">
         <div class="w-1/2">
+          <div>
+            <h2 class="text-xl">Shape</h2>
+            <ShapeSelector
+              containerProps={{ class: "flex flex-row items-center gap-4" }}
+              labelProps={{
+                children: "Shape:",
+                class: "min-w-[5rem] inline-block",
+              }}
+              value={shape}
+            />
+          </div>
           <div>
             <h2 class="text-xl">Field</h2>
             <ColorSelector

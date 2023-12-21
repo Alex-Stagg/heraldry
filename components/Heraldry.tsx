@@ -1,6 +1,7 @@
 import { computed, Signal, useSignal } from "@preact/signals";
 import { StateUpdater, useState } from "preact/hooks";
 
+export type HeraldryShape = "pointed";
 export type HeraldryMetal = "argent" | "or";
 export type HeraldryTincture = "gules" | "noir";
 export type HeraldryCommand =
@@ -45,6 +46,7 @@ export interface HeraldryCharge {
 }
 
 export interface HeraldryDef {
+  shape: HeraldryShape;
   field: HeraldryMetal | HeraldryTincture;
   division?: HeraldryDivision;
   ordinary?: HeraldryOrdinary;
@@ -63,6 +65,28 @@ const fills = {
   argent: "fill-argent",
   or: "fill-or",
 };
+
+function Shape(props: {type: HeraldryShape}) {
+  if (props.type === "pointed") {
+    return <>
+      <clipPath id="shield">
+        <path d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z" />
+      </clipPath>
+      <mask id="tiny-shield">
+        <path
+          d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
+          fill="#FFF"
+        />
+        <path
+          d="M -20,-20 H 20 L 20,0 C 20,20 0,27.5 0,27.5 0,27.5 -20,20 -20,0 Z"
+          fill="#000"
+        />
+      </mask>
+    </>
+  }
+  
+  return <></>
+}
 
 function Charge(props: HeraldryCharge) {
   let fx = (major: number, minor: number) => major;
@@ -427,19 +451,7 @@ export default function Heraldry(props: HeraldryProps) {
     <div class={props.class}>
       <svg viewBox="-40 -40 80 80" id={props.id}>
         <defs>
-          <clipPath id="shield">
-            <path d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z" />
-          </clipPath>
-          <mask id="tiny-shield">
-            <path
-              d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
-              fill="#FFF"
-            />
-            <path
-              d="M -20,-20 H 20 L 20,0 C 20,20 0,27.5 0,27.5 0,27.5 -20,20 -20,0 Z"
-              fill="#000"
-            />
-          </mask>
+          <Shape type={props.heraldry.value.shape} />
         </defs>
         <path
           d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"

@@ -1,7 +1,7 @@
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { JSX } from "preact/jsx-runtime";
 
-export default function Button(props: JSX.HTMLAttributes<HTMLSelectElement>) {
+export default function Select(props: JSX.HTMLAttributes<HTMLSelectElement>) {
   return (
     <select
       {...props}
