@@ -18,7 +18,7 @@ import ChargeSetter from "../components/ChargeSetter.tsx";
 import ShapeSelector from "../components/ShapeSelector.tsx";
 
 export default function SetHeraldry() {
-  const shape = useSignal<HeraldryShape>("pointed");
+  const shape = useSignal<HeraldryShape>("rounded");
   const field = useSignal<HeraldryMetal | HeraldryTincture>("or");
 
   const divisionEnabled = useSignal<boolean>(true);

@@ -1,7 +1,8 @@
 import { computed, Signal, useSignal } from "@preact/signals";
 import { StateUpdater, useState } from "preact/hooks";
+import { JSX } from "preact/jsx-runtime";
 
-export type HeraldryShape = "pointed";
+export type HeraldryShape = "pointed" | "rounded";
 export type HeraldryMetal = "argent" | "or";
 export type HeraldryTincture = "gules" | "noir";
 export type HeraldryCommand =
@@ -66,26 +67,22 @@ const fills = {
   or: "fill-or",
 };
 
-function Shape(props: {type: HeraldryShape}) {
-  if (props.type === "pointed") {
-    return <>
-      <clipPath id="shield">
-        <path d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z" />
-      </clipPath>
-      <mask id="tiny-shield">
-        <path
-          d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
-          fill="#FFF"
-        />
-        <path
-          d="M -20,-20 H 20 L 20,0 C 20,20 0,27.5 0,27.5 0,27.5 -20,20 -20,0 Z"
-          fill="#000"
-        />
-      </mask>
-    </>
+interface HeraldryShapeProps extends Omit<JSX.SVGAttributes<SVGPathElement>, "d" | "type"> {
+  type: HeraldryShape
+};
+
+function Shape(props: HeraldryShapeProps) {
+  if (props.type === "rounded") {
+    return <path
+      d="M -25,-25 H 25 L 25,0 C 25,32.5 0,32.5 0,32.5 0,32.5 -25,32.5 -25,0 Z"
+      {...props}
+    />
   }
-  
-  return <></>
+
+  return <path
+    d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
+    {...props}
+  />
 }
 
 function Charge(props: HeraldryCharge) {
@@ -451,10 +448,19 @@ export default function Heraldry(props: HeraldryProps) {
     <div class={props.class}>
       <svg viewBox="-40 -40 80 80" id={props.id}>
         <defs>
-          <Shape type={props.heraldry.value.shape} />
+          <clipPath id="shield">
+            <Shape type={props.heraldry.value.shape} />
+          </clipPath>
+          <mask id="tiny-shield">
+            <Shape type={props.heraldry.value.shape} fill="#FFF" />
+            <path
+              d="M -20,-20 H 20 L 20,0 C 20,20 0,27.5 0,27.5 0,27.5 -20,20 -20,0 Z"
+              fill="#000"
+            />
+          </mask>
         </defs>
-        <path
-          d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
+        <Shape
+          type={props.heraldry.value.shape}
           class={`${fills[props.heraldry.value.field]}`}
           style="stroke: #000000;stroke-width: 0.352777;stroke-linecap: round;stroke-linejoin: round;"
         />
@@ -467,8 +473,8 @@ export default function Heraldry(props: HeraldryProps) {
 
         {charges}
 
-        <path
-          d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
+        <Shape
+          type={props.heraldry.value.shape}
           style="fill: none;stroke: #000000;stroke-width: 0.352777;stroke-linecap: round;stroke-linejoin: round;"
         />
       </svg>

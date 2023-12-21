@@ -27,6 +27,7 @@ export default function ShapeSelector(props: CommandSelectorProps) {
           ) => (props.value.value = e.currentTarget.value as HeraldryShape)}
         >
           <option value="pointed">Pointed</option>
+          <option value="rounded">Rounded</option>
         </Select>
       </div>
     </div>
