@@ -3,6 +3,7 @@ import { StateUpdater, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
 
 export type HeraldryShape = "pointed" | "rounded";
+export type HeraldryCutout = "left" | "right" | "both" | "down left" | "down right" | "down both" | "long";
 export type HeraldryMetal = "argent" | "or";
 export type HeraldryTincture = "gules" | "noir";
 export type HeraldryCommand =
@@ -48,6 +49,7 @@ export interface HeraldryCharge {
 
 export interface HeraldryDef {
   shape: HeraldryShape;
+  cutout?: HeraldryCutout;
   field: HeraldryMetal | HeraldryTincture;
   division?: HeraldryDivision;
   ordinary?: HeraldryOrdinary;
@@ -66,6 +68,102 @@ const fills = {
   argent: "fill-argent",
   or: "fill-or",
 };
+
+
+interface HeraldryCutoutProps extends Omit<JSX.SVGAttributes<SVGCircleElement>, "d" | "type"> {
+  type?: HeraldryCutout
+};
+
+function Cutout(props: HeraldryCutoutProps) {
+  if (props.type === "left") {
+    return <circle
+      r="7.5"
+      cx="-22.5"
+      cy="-22.5"
+      {...props}
+    />
+  }
+
+  if (props.type === "down left") {
+    return <circle
+      r="7.5"
+      cx="-25"
+      cy="-10"
+      {...props}
+    />
+  }
+
+  if (props.type === "right") {
+    return <circle
+      r="7.5"
+      cx="22.5"
+      cy="-22.5"
+      {...props}
+    />
+  }
+
+  if (props.type === "down right") {
+    return <circle
+      r="7.5"
+      cx="25"
+      cy="-10"
+      {...props}
+    />
+  }
+
+  if (props.type === "both") {
+    return <>
+    <circle
+      r="7.5"
+      cx="-22.5"
+      cy="-22.5"
+      {...props}
+    />
+      <circle
+      r="7.5"
+      cx="22.5"
+      cy="-22.5"
+      {...props}
+    />
+    </>
+  }
+
+  if (props.type === "down both") {
+    return <>
+    <circle
+      r="7.5"
+      cx="-25"
+      cy="-10"
+      {...props}
+    />
+      <circle
+      r="7.5"
+      cx="25"
+      cy="-10"
+      {...props}
+    />
+    </>
+  }
+
+  if (props.type === "long") {
+    return <>
+    <circle
+      r="100"
+      cx="-123.5"
+      cy="-10"
+      {...props}
+    />
+      <circle
+      r="100"
+      cx="123.5"
+      cy="-10"
+      {...props}
+    />
+    </>
+  }
+
+  return <></>
+}
 
 interface HeraldryShapeProps extends Omit<JSX.SVGAttributes<SVGPathElement>, "d" | "type"> {
   type: HeraldryShape
@@ -105,13 +203,13 @@ function Charge(props: HeraldryCharge) {
 
   if (props.type === "circle") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <circle cx={x} cy={y} r="5" class={`${fills[props.color]}`} />
       </g>
     );
   } else if (props.type === "square") {
     return (
-      <g clip-path="url(#shield">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x={x - 5}
           y={y - 5}
@@ -136,7 +234,7 @@ function Ordinary(props: HeraldryOrdinary) {
         height="10"
         width="100"
         class={`${fills[props.color]}`}
-        clip-path="url(#shield)"
+        mask="url(#shield-with-cutout)"
       />
     );
   }
@@ -148,13 +246,13 @@ function Ordinary(props: HeraldryOrdinary) {
         height="100"
         width="10"
         class={`${fills[props.color]}`}
-        clip-path="url(#shield)"
+        mask="url(#shield-with-cutout)"
       />
     );
   }
   if (props.command === "bend") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="-5"
           y="-50"
@@ -168,7 +266,7 @@ function Ordinary(props: HeraldryOrdinary) {
   }
   if (props.command === "cross") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="-50"
           y="-5"
@@ -187,7 +285,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "saltire") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="-50"
           y="-5"
@@ -208,7 +306,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "chevron" && !props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <polygon
           points="0,-15 100,85 100,95 0,-5 -100,95 -100,85"
           class={`${fills[props.color]}`}
@@ -217,7 +315,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "chevron" && props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <polygon
           points="0,15 100,-85 100,-95 0,5 -100,-95 -100,-85"
           class={`${fills[props.color]}`}
@@ -226,7 +324,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "pall" && !props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <polygon
           points="0,-5 -20,-25 -25,-25 -25,-20 -3.5,1.5 -3.5,35 3.5,35 3.5,1.5 25,-20 25,-25 20,-25"
           class={`${fills[props.color]}`}
@@ -235,7 +333,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "pall" && props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <polygon
           points="0,5 -20,25 -25,25 -25,20 -3.5,-1.5 -3.5,-25 3.5,-25 3.5,-1.5 25,20 25,25 20,25"
           class={`${fills[props.color]}`}
@@ -244,7 +342,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "chief") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="-25"
           y="-65"
@@ -256,7 +354,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "base") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="-25"
           y="20"
@@ -268,7 +366,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "tierce") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x={props.sinister ? -60 : 10}
           y="-35"
@@ -280,7 +378,7 @@ function Ordinary(props: HeraldryOrdinary) {
     );
   } else if (props.command === "canton") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x={props.sinister ? -60 : 10}
           y="-80"
@@ -315,7 +413,7 @@ function Division(props: HeraldryDivision) {
         height="50"
         width="50"
         class={`${fills[props.color]}`}
-        clip-path="url(#shield)"
+        mask="url(#shield-with-cutout)"
       />
     );
   } else if (props.command === "pale") {
@@ -326,12 +424,12 @@ function Division(props: HeraldryDivision) {
         height="100"
         width="50"
         class={`${fills[props.color]}`}
-        clip-path="url(#shield)"
+        mask="url(#shield-with-cutout)"
       />
     );
   } else if (props.command === "bend" && !props.sinister) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="-25"
           y="-25"
@@ -344,7 +442,7 @@ function Division(props: HeraldryDivision) {
     );
   } else if (props.command === "bend" && props.sinister) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="25"
           y="-25"
@@ -357,7 +455,7 @@ function Division(props: HeraldryDivision) {
     );
   } else if (props.command === "cross") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           x="-100"
           height="100"
@@ -374,7 +472,7 @@ function Division(props: HeraldryDivision) {
     );
   } else if (props.command === "saltire") {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           height="100"
           width="100"
@@ -391,7 +489,7 @@ function Division(props: HeraldryDivision) {
     );
   } else if (props.command === "chevron" && !props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           y="-10"
           height="100"
@@ -403,7 +501,7 @@ function Division(props: HeraldryDivision) {
     );
   } else if (props.command === "chevron" && props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <rect
           y="10"
           height="100"
@@ -415,7 +513,7 @@ function Division(props: HeraldryDivision) {
     );
   } else if (props.command === "pall" && !props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <polygon points="0,0 0,100 -40,-40" class={`${fills[props.color]}`} />
         <polygon
           points="0,0 0,100 40,-40"
@@ -425,7 +523,7 @@ function Division(props: HeraldryDivision) {
     );
   } else if (props.command === "pall" && props.perverse) {
     return (
-      <g clip-path="url(#shield)">
+      <g mask="url(#shield-with-cutout)">
         <polygon points="0,0 0,-100 50,50" class={`${fills[props.color]}`} />
         <polygon
           points="0,0 0,-100 -50,50"
@@ -448,21 +546,41 @@ export default function Heraldry(props: HeraldryProps) {
     <div class={props.class}>
       <svg viewBox="-40 -40 80 80" id={props.id}>
         <defs>
-          <clipPath id="shield">
-            <Shape type={props.heraldry.value.shape} />
-          </clipPath>
-          <mask id="tiny-shield">
-            <Shape type={props.heraldry.value.shape} fill="#FFF" />
-            <path
-              d="M -20,-20 H 20 L 20,0 C 20,20 0,27.5 0,27.5 0,27.5 -20,20 -20,0 Z"
+          <mask id="shield">
+            <Shape
+              type={props.heraldry.value.shape}
+              fill="#FFF"
+            />
+          </mask>
+          <mask id="shield-with-cutout">
+            <Shape
+              type={props.heraldry.value.shape}
+              fill="#FFF"  
+            />
+            <Cutout
+              type={props.heraldry.value.cutout}
+              fill="#000"
+            />
+          </mask>
+          <mask id="cutout">
+            <rect
+              x="-50"
+              y="-50"
+              width="100"
+              height="100"
+              fill="#FFF"
+            />
+            <Cutout
+              type={props.heraldry.value.cutout}
               fill="#000"
             />
           </mask>
         </defs>
+        
         <Shape
+          mask="url(#shield-with-cutout)"
           type={props.heraldry.value.shape}
           class={`${fills[props.heraldry.value.field]}`}
-          style="stroke: #000000;stroke-width: 0.352777;stroke-linecap: round;stroke-linejoin: round;"
         />
         {props.heraldry.value.division !== undefined && (
           <Division {...props.heraldry.value.division!} />
@@ -474,7 +592,13 @@ export default function Heraldry(props: HeraldryProps) {
         {charges}
 
         <Shape
+          mask="url(#cutout)"
           type={props.heraldry.value.shape}
+          style="fill: none;stroke: #000000;stroke-width: 0.352777;stroke-linecap: round;stroke-linejoin: round;"
+        />
+        <Cutout
+          mask="url(#shield)"
+          type={props.heraldry.value.cutout}
           style="fill: none;stroke: #000000;stroke-width: 0.352777;stroke-linecap: round;stroke-linejoin: round;"
         />
       </svg>

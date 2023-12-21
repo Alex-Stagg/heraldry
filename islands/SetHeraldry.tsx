@@ -2,6 +2,7 @@ import { useComputed, useSignal } from "@preact/signals";
 import Heraldry, {
   HeraldryCharge,
   HeraldryCommand,
+  HeraldryCutout,
   HeraldryDef,
   HeraldryDivision,
   HeraldryExtraCommand,
@@ -16,9 +17,11 @@ import CommandSelector from "../components/CommandSelector.tsx";
 import ExtraCommandSelector from "../components/ExtraCommandSelector.tsx";
 import ChargeSetter from "../components/ChargeSetter.tsx";
 import ShapeSelector from "../components/ShapeSelector.tsx";
+import CutoutSelector from "../components/CutoutSelector.tsx";
 
 export default function SetHeraldry() {
-  const shape = useSignal<HeraldryShape>("rounded");
+  const shape = useSignal<HeraldryShape>("pointed");
+  const cutout = useSignal<HeraldryCutout | "none">("none");
   const field = useSignal<HeraldryMetal | HeraldryTincture>("or");
 
   const divisionEnabled = useSignal<boolean>(true);
@@ -71,6 +74,7 @@ export default function SetHeraldry() {
   const heraldry = useComputed<HeraldryDef>(() => {
     return {
       shape: shape.value,
+      cutout: cutout.value === "none" ? undefined : cutout.value,
       field: field.value,
       division: divisionEnabled.value ? division.value : undefined,
       ordinary: ordinaryEnabled.value ? ordinary.value : undefined,
@@ -91,6 +95,17 @@ export default function SetHeraldry() {
                 class: "min-w-[5rem] inline-block",
               }}
               value={shape}
+            />
+          </div>
+          <div>
+            <h2 class="text-xl">Cutout</h2>
+            <CutoutSelector
+              containerProps={{ class: "flex flex-row items-center gap-4" }}
+              labelProps={{
+                children: "Type:",
+                class: "min-w-[5rem] inline-block",
+              }}
+              value={cutout}
             />
           </div>
           <div>
