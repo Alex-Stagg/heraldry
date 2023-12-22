@@ -7,7 +7,7 @@ interface CommandSelectorProps {
   containerProps?: JSX.HTMLAttributes<HTMLDivElement>;
   labelProps?: JSX.HTMLAttributes<HTMLLabelElement>;
   selectProps?: JSX.HTMLAttributes<HTMLSelectElement>;
-  value: Signal<HeraldryCutout | "none">;
+  value: Signal<HeraldryCutout>;
 }
 
 export default function CutoutSelector(props: CommandSelectorProps) {
@@ -24,9 +24,8 @@ export default function CutoutSelector(props: CommandSelectorProps) {
           value={props.value.value}
           onChange={(
             e,
-          ) => (props.value.value = e.currentTarget.value as (HeraldryCutout | "none"))}
+          ) => (props.value.value = e.currentTarget.value as (HeraldryCutout))}
         >
-          <option value="none">None</option>
           <option value="left">Left</option>
           <option value="right">Right</option>
           <option value="both">Both</option>

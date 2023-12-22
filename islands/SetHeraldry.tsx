@@ -21,7 +21,8 @@ import CutoutSelector from "../components/CutoutSelector.tsx";
 
 export default function SetHeraldry() {
   const shape = useSignal<HeraldryShape>("pointed");
-  const cutout = useSignal<HeraldryCutout | "none">("none");
+  const cutoutEnabled = useSignal<boolean>(false);
+  const cutout = useSignal<HeraldryCutout>("left");
   const field = useSignal<HeraldryMetal | HeraldryTincture>("or");
 
   const divisionEnabled = useSignal<boolean>(true);
@@ -60,7 +61,7 @@ export default function SetHeraldry() {
 
   const charges = useSignal<HeraldryCharge[]>([{
     type: "square",
-    color: "gules",
+    color: "noir",
     arrangement: "fess",
     sinister: false,
     count: 1,
@@ -74,7 +75,7 @@ export default function SetHeraldry() {
   const heraldry = useComputed<HeraldryDef>(() => {
     return {
       shape: shape.value,
-      cutout: cutout.value === "none" ? undefined : cutout.value,
+      cutout: cutoutEnabled.value ? cutout.value : undefined,
       field: field.value,
       division: divisionEnabled.value ? division.value : undefined,
       ordinary: ordinaryEnabled.value ? ordinary.value : undefined,
@@ -99,14 +100,27 @@ export default function SetHeraldry() {
           </div>
           <div>
             <h2 class="text-xl">Cutout</h2>
-            <CutoutSelector
+            <div class="w-full flex flex-row items-center gap-4">
+              <div class="min-w-[5rem]">
+                <label>Enabled:</label>
+              </div>
+              <div>
+                <Checkbox
+                  checked={cutoutEnabled.value}
+                  onChange={(
+                    e,
+                  ) => (cutoutEnabled.value = e.currentTarget.checked)}
+                />
+              </div>
+            </div>
+            {cutoutEnabled.value && <CutoutSelector
               containerProps={{ class: "flex flex-row items-center gap-4" }}
               labelProps={{
                 children: "Type:",
                 class: "min-w-[5rem] inline-block",
               }}
               value={cutout}
-            />
+            />}
           </div>
           <div>
             <h2 class="text-xl">Field</h2>
