@@ -26,11 +26,11 @@ export default function CutoutSelector(props: CommandSelectorProps) {
             e,
           ) => (props.value.value = e.currentTarget.value as (HeraldryCutout))}
         >
-          <option value="left">Left</option>
-          <option value="right">Right</option>
+          <option value="left">Sinister</option>
+          <option value="right">Dexter</option>
           <option value="both">Both</option>
-          <option value="down left">Down Left</option>
-          <option value="down right">Down Right</option>
+          <option value="down left">Down Sinister</option>
+          <option value="down right">Down Dexter</option>
           <option value="down both">Down both</option>
           <option value="long">Long</option>
         </Select>

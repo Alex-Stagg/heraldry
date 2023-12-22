@@ -75,7 +75,7 @@ interface HeraldryCutoutProps extends Omit<JSX.SVGAttributes<SVGCircleElement>, 
 };
 
 function Cutout(props: HeraldryCutoutProps) {
-  if (props.type === "left") {
+  if (props.type === "right") {
     return <circle
       r="7.5"
       cx="-22.5"
@@ -84,7 +84,7 @@ function Cutout(props: HeraldryCutoutProps) {
     />
   }
 
-  if (props.type === "down left") {
+  if (props.type === "down right") {
     return <circle
       r="7.5"
       cx="-25"
@@ -93,7 +93,7 @@ function Cutout(props: HeraldryCutoutProps) {
     />
   }
 
-  if (props.type === "right") {
+  if (props.type === "left") {
     return <circle
       r="7.5"
       cx="22.5"
@@ -102,7 +102,7 @@ function Cutout(props: HeraldryCutoutProps) {
     />
   }
 
-  if (props.type === "down right") {
+  if (props.type === "down left") {
     return <circle
       r="7.5"
       cx="25"
