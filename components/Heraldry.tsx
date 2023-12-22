@@ -3,7 +3,14 @@ import { StateUpdater, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
 
 export type HeraldryShape = "pointed" | "rounded";
-export type HeraldryCutout = "left" | "right" | "both" | "down left" | "down right" | "down both" | "long";
+export type HeraldryCutout =
+  | "left"
+  | "right"
+  | "both"
+  | "down left"
+  | "down right"
+  | "down both"
+  | "long";
 export type HeraldryMetal = "argent" | "or";
 export type HeraldryTincture = "gules" | "noir";
 export type HeraldryCommand =
@@ -69,118 +76,137 @@ const fills = {
   or: "fill-or",
 };
 
-
-interface HeraldryCutoutProps extends Omit<JSX.SVGAttributes<SVGCircleElement>, "d" | "type"> {
-  type?: HeraldryCutout
-};
+interface HeraldryCutoutProps
+  extends Omit<JSX.SVGAttributes<SVGCircleElement>, "d" | "type"> {
+  type?: HeraldryCutout;
+}
 
 function Cutout(props: HeraldryCutoutProps) {
   if (props.type === "right") {
-    return <circle
-      r="7.5"
-      cx="-22.5"
-      cy="-22.5"
-      {...props}
-    />
+    return (
+      <circle
+        r="7.5"
+        cx="-22.5"
+        cy="-22.5"
+        {...props}
+      />
+    );
   }
 
   if (props.type === "down right") {
-    return <circle
-      r="7.5"
-      cx="-25"
-      cy="-10"
-      {...props}
-    />
+    return (
+      <circle
+        r="7.5"
+        cx="-25"
+        cy="-10"
+        {...props}
+      />
+    );
   }
 
   if (props.type === "left") {
-    return <circle
-      r="7.5"
-      cx="22.5"
-      cy="-22.5"
-      {...props}
-    />
+    return (
+      <circle
+        r="7.5"
+        cx="22.5"
+        cy="-22.5"
+        {...props}
+      />
+    );
   }
 
   if (props.type === "down left") {
-    return <circle
-      r="7.5"
-      cx="25"
-      cy="-10"
-      {...props}
-    />
+    return (
+      <circle
+        r="7.5"
+        cx="25"
+        cy="-10"
+        {...props}
+      />
+    );
   }
 
   if (props.type === "both") {
-    return <>
-    <circle
-      r="7.5"
-      cx="-22.5"
-      cy="-22.5"
-      {...props}
-    />
-      <circle
-      r="7.5"
-      cx="22.5"
-      cy="-22.5"
-      {...props}
-    />
-    </>
+    return (
+      <>
+        <circle
+          r="7.5"
+          cx="-22.5"
+          cy="-22.5"
+          {...props}
+        />
+        <circle
+          r="7.5"
+          cx="22.5"
+          cy="-22.5"
+          {...props}
+        />
+      </>
+    );
   }
 
   if (props.type === "down both") {
-    return <>
-    <circle
-      r="7.5"
-      cx="-25"
-      cy="-10"
-      {...props}
-    />
-      <circle
-      r="7.5"
-      cx="25"
-      cy="-10"
-      {...props}
-    />
-    </>
+    return (
+      <>
+        <circle
+          r="7.5"
+          cx="-25"
+          cy="-10"
+          {...props}
+        />
+        <circle
+          r="7.5"
+          cx="25"
+          cy="-10"
+          {...props}
+        />
+      </>
+    );
   }
 
   if (props.type === "long") {
-    return <>
-    <circle
-      r="100"
-      cx="-123.5"
-      cy="-10"
-      {...props}
-    />
-      <circle
-      r="100"
-      cx="123.5"
-      cy="-10"
-      {...props}
-    />
-    </>
+    return (
+      <>
+        <circle
+          r="100"
+          cx="-123.5"
+          cy="-10"
+          {...props}
+        />
+        <circle
+          r="100"
+          cx="123.5"
+          cy="-10"
+          {...props}
+        />
+      </>
+    );
   }
 
-  return <></>
+  return <></>;
 }
 
-interface HeraldryShapeProps extends Omit<JSX.SVGAttributes<SVGPathElement>, "d" | "type"> {
-  type: HeraldryShape
-};
+interface HeraldryShapeProps
+  extends Omit<JSX.SVGAttributes<SVGPathElement>, "d" | "type"> {
+  type: HeraldryShape;
+}
 
 function Shape(props: HeraldryShapeProps) {
   if (props.type === "rounded") {
-    return <path
-      d="M -25,-25 H 25 L 25,0 C 25,32.5 0,32.5 0,32.5 0,32.5 -25,32.5 -25,0 Z"
-      {...props}
-    />
+    return (
+      <path
+        d="M -25,-25 H 25 L 25,0 C 25,32.5 0,32.5 0,32.5 0,32.5 -25,32.5 -25,0 Z"
+        {...props}
+      />
+    );
   }
 
-  return <path
-    d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
-    {...props}
-  />
+  return (
+    <path
+      d="M -25,-25 H 25 L 25,0 C 25,25 0,32.5 0,32.5 0,32.5 -25,25 -25,0 Z"
+      {...props}
+    />
+  );
 }
 
 function Charge(props: HeraldryCharge) {
@@ -555,7 +581,7 @@ export default function Heraldry(props: HeraldryProps) {
           <mask id="shield-with-cutout">
             <Shape
               type={props.heraldry.value.shape}
-              fill="#FFF"  
+              fill="#FFF"
             />
             <Cutout
               type={props.heraldry.value.cutout}
@@ -576,7 +602,7 @@ export default function Heraldry(props: HeraldryProps) {
             />
           </mask>
         </defs>
-        
+
         <Shape
           mask="url(#shield-with-cutout)"
           type={props.heraldry.value.shape}

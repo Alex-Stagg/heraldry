@@ -86,7 +86,7 @@ export default function SetHeraldry() {
 
   return (
     <div class="flex flex-col gap-2 w-full">
-      <Export/>
+      <Export />
       <div class="flex flex-row justify-between">
         <div class="w-1/2">
           <div>
@@ -115,14 +115,16 @@ export default function SetHeraldry() {
                 />
               </div>
             </div>
-            {cutoutEnabled.value && <CutoutSelector
-              containerProps={{ class: "flex flex-row items-center gap-4" }}
-              labelProps={{
-                children: "Type:",
-                class: "min-w-[5rem] inline-block",
-              }}
-              value={cutout}
-            />}
+            {cutoutEnabled.value && (
+              <CutoutSelector
+                containerProps={{ class: "flex flex-row items-center gap-4" }}
+                labelProps={{
+                  children: "Type:",
+                  class: "min-w-[5rem] inline-block",
+                }}
+                value={cutout}
+              />
+            )}
           </div>
           <div>
             <h2 class="text-xl">Field</h2>
