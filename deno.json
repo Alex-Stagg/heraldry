@@ -26,6 +26,7 @@
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.0",
     "tailwindcss": "npm:tailwindcss@3.3.5",
     "tailwindcss/": "npm:/tailwindcss@3.3.5/",
+    "tailwindcss/colors": "npm:/tailwindcss@3.3.5/colors.js",
     "tailwindcss/plugin": "npm:/tailwindcss@3.3.5/plugin.js",
     "$std/": "https://deno.land/std@0.208.0/"
   },

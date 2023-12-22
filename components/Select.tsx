@@ -6,7 +6,7 @@ export default function Select(props: JSX.HTMLAttributes<HTMLSelectElement>) {
     <select
       {...props}
       disabled={!IS_BROWSER || props.disabled}
-      class="px-2 py-1 border-gray-500 border-2 rounded bg-white transition-colors"
+      class="px-2 py-1 border-zinc-500 border-2 rounded bg-white transition-colors"
     >
       {props.children}
     </select>

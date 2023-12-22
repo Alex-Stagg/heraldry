@@ -570,7 +570,7 @@ export default function Heraldry(props: HeraldryProps) {
 
   return (
     <div class={props.class}>
-      <svg viewBox="-40 -40 80 80" id={props.id}>
+      <svg viewBox="-26 -26 52 60" id={props.id}>
         <defs>
           <mask id="shield">
             <Shape

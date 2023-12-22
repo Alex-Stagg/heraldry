@@ -87,7 +87,7 @@ export default function SetHeraldry() {
   return (
     <div class="flex flex-col gap-2 w-full">
       <Export />
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-row justify-between gap-2">
         <div class="w-1/2">
           <div>
             <h2 class="text-xl">Shape</h2>
@@ -302,11 +302,17 @@ export default function SetHeraldry() {
               )}
             </div>
           </div>
+          <ChargeSetter charges={charges} />
         </div>
-        <Heraldry class="w-1/2" heraldry={heraldry} id="heraldry" />
+        <div class="w-1/2">
+          <Heraldry
+            class="bg-slate-50 rounded border-2 border-slate-300 sticky top-0"
+            heraldry={heraldry}
+            id="heraldry"
+          />
+        </div>
         <div id="heraldry2"></div>
       </div>
-      <ChargeSetter charges={charges} />
     </div>
   );
 }
