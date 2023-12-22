@@ -1,3 +1,4 @@
+import Export from "../components/Export.tsx";
 import SetHeraldry from "../islands/SetHeraldry.tsx";
 
 export default function Home() {

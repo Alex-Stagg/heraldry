@@ -18,6 +18,7 @@ import ExtraCommandSelector from "../components/ExtraCommandSelector.tsx";
 import ChargeSetter from "../components/ChargeSetter.tsx";
 import ShapeSelector from "../components/ShapeSelector.tsx";
 import CutoutSelector from "../components/CutoutSelector.tsx";
+import Export from "../components/Export.tsx";
 
 export default function SetHeraldry() {
   const shape = useSignal<HeraldryShape>("pointed");
@@ -85,6 +86,7 @@ export default function SetHeraldry() {
 
   return (
     <div class="flex flex-col gap-2 w-full">
+      <Export/>
       <div class="flex flex-row justify-between">
         <div class="w-1/2">
           <div>
@@ -300,6 +302,7 @@ export default function SetHeraldry() {
           </div>
         </div>
         <Heraldry class="w-1/2" heraldry={heraldry} id="heraldry" />
+        <div id="heraldry2"></div>
       </div>
       <ChargeSetter charges={charges} />
     </div>
